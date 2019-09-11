@@ -672,11 +672,10 @@ public final class PDF417 {
 
     //3. step: Error correction
     String ec = PDF417ErrorCorrection.generateErrorCorrection(dataCodewords, errorCorrectionLevel);
-    String fullCodewords = dataCodewords + ec;
 
     //4. step: low-level encoding
     barcodeMatrix = new BarcodeMatrix(rows, cols);
-    encodeLowLevel(fullCodewords, cols, rows, errorCorrectionLevel, barcodeMatrix);
+    encodeLowLevel(dataCodewords + ec, cols, rows, errorCorrectionLevel, barcodeMatrix);
   }
 
   /**
@@ -703,7 +702,7 @@ public final class PDF417 {
         continue;
       }
 
-      float newRatio = ((17 * cols + 69) * DEFAULT_MODULE_WIDTH) / (rows * HEIGHT);
+      float newRatio = ((float) (17 * cols + 69) * DEFAULT_MODULE_WIDTH) / (rows * HEIGHT);
 
       // ignore if previous ratio is closer to preferred ratio
       if (dimension != null && Math.abs(newRatio - PREFERRED_RATIO) > Math.abs(ratio - PREFERRED_RATIO)) {
